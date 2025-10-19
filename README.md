@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# 🌊 YuweLongo - Frontend V0.1
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Estado del Proyecto](https://img.shields.io/badge/estado-en%20desarrollo-yellowgreen)](https://github.com/moonthang/yuwelongo-frontend)
+[![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Descripción del Proyecto
 
-### `npm start`
+**YuweLongo** es un diccionario interactivo sobre la lengua indígena **Nasa Yuwe**, acompañado de un **juego educativo**.  
+Esta versión web (**V0.1**) está enfocada en la **gestión de usuarios**, con operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para el rol **Administrador (`ADMIN`)**.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> ⚠️ *Aún falta mejorar la parte visual e integrar la lógica completa del juego y las categorías.*
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+El frontend está construido con **React**, utilizando **Vite** para el entorno de desarrollo.  
+Se conecta con un **Backend Java (Jakarta EE / Servlets)** que maneja la autenticación mediante **JWT** (JSON Web Tokens).
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📚 Tabla de Contenido
 
-### `npm run build`
+1. [🚀 Descripción del Proyecto](#-descripción-del-proyecto)
+2. [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
+3. [🧱 Estructura del Proyecto](#-estructura-del-proyecto)
+4. [⚙️ Configuración del Entorno](#️-configuración-del-entorno)
+   1. [1️⃣ Prerrequisitos](#1️⃣-prerrequisitos)
+   2. [2️⃣ Instalación de Dependencias](#2️⃣-instalación-de-dependencias)
+5. [👨‍💻 Autores](#-autores)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ Tecnologías Utilizadas
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Categoría | Tecnología | Uso Principal |
+|:--|:--|:--|
+| **Frontend** | <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="20"/> React (JavaScript) | Componentes, Hooks (`useState`, `useEffect`) |
+| **Entorno de desarrollo** | <img src="https://vitejs.dev/logo.svg" width="20"/> Vite | Servidor rápido de desarrollo y build optimizado |
+| **Formularios** | Formik + Yup | Manejo y validación de formularios |
+| **Comunicación API** | `fetch` API / `userService.js` | Peticiones HTTP al backend |
+| **Backend asociado** | <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Jakarta_EE_logo.svg" width="20"/> Java Servlets (Jakarta EE) | API RESTful |
+| **Seguridad** | <img src="https://jwt.io/img/pic_logo.svg" width="20"/> JWT (JSON Web Tokens) | Autenticación y sesiones |
+| **Estilos** | CSS | Diseño y estructura visual |
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🧱 Estructura del Proyecto
+yuwelongo-frontend/
+├── src/
+│ ├── components/ # Componentes reutilizables (Botones, Formularios, Tablas)
+│ ├── pages/ # Páginas principales (Login, Dashboard, Usuarios)
+│ ├── services/ # Lógica de conexión con la API (userService.js)
+│ ├── context/ # Contextos globales (AuthContext)
+│ ├── hooks/ # Hooks personalizados
+│ ├── styles/ # Archivos CSS
+│ └── main.jsx # Punto de entrada de la aplicación
+├── public/
+├── .env
+├── package.json
+└── README.md
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ⚙️ Configuración del Entorno
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 1️⃣ Prerrequisitos
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Asegúrate de tener instalado en tu equipo:
 
-## Learn More
+- 🟩 **Node.js** (v18 o superior) y **npm**
+- 🟦 **Git**
+- 🔧 El **Backend YuweLongo** ejecutándose en local o remoto  
+  👉 [Repositorio del Backend](https://github.com/moonthang/yuwelongo-backend)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 2️⃣ Instalación de Dependencias
 
-### Code Splitting
+Sigue estos pasos para configurar el proyecto localmente:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+### Pasos de Instalación
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1.  **Clonar el repositorio**:
+    ```bash
+    git clone [https://github.com/moonthang/yuwelongo-frontend](https://github.com/moonthang/yuwelongo-frontend)
+    ```
+2.  **Acceder a la carpeta del proyecto**:
+    ```bash
+    cd yuwelongo-frontend
+    ```
+3.  **Instalar dependencias**:
+    ```bash
+    npm install
+    ```
+4.  **Ejecutar el servidor de desarrollo**:
+    ```bash
+    npm run dev
+    ```
 
-### Making a Progressive Web App
+## 👨‍💻 Autores
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**YuweLongo - Frontend** fue desarrollado por **Miguel Angel Sepulveda Burgos** y **Faeli Yobana Nez Fiole**.
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   <img src="https://cdn.worldvectorlogo.com/logos/github-icon-2.svg" width="20" height="20"/> GitHub: [@moonthang](https://github.com/moonthang)
+*   <img src="https://static.vecteezy.com/system/resources/previews/018/930/480/non_2x/linkedin-logo-linkedin-icon-transparent-free-png.png" width="20" height="20"/> LinkedIn: [Miguel Ángel Sepulveda Burgos](https://www.linkedin.com/in/miguel-%C3%A1ngel-sep%C3%BAlveda-burgos-a87808167/)
