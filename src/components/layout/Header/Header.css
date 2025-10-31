@@ -1,0 +1,79 @@
+.navbar-nav .nav-link.btn,
+.navbar-nav .dropdown-menu {
+  border-radius: 0.375rem;
+}
+
+.navbar-nav .nav-link.btn {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link.btn-outline-secondary,
+.navbar-nav .nav-link.btn-outline-primary {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.navbar-nav .nav-link.btn-outline-secondary {
+  color: var(--color-texto-claro);
+}
+
+.navbar-nav .nav-link.btn-outline-secondary:hover {
+  background-color: var(--color-bg-primario);
+  color: var(--color-texto);
+}
+
+.navbar-nav .nav-link.btn-outline-primary {
+  color: var(--color-bg-terciario);
+}
+
+.navbar-nav .nav-link.btn-outline-primary:hover {
+  background-color: var(--color-bg-terciario);
+  color: white;
+}
+
+.navbar-nav .dropdown-toggle {
+  color: var(--color-texto);
+}
+
+.navbar-nav .dropdown-menu {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.navbar-nav .nav-link.btn-primary:hover {
+  background-color: var(--color-bg-primario);
+  color: var(--color-texto);
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+    color: var(--color-texto-claro);
+}
+
+.navbar-nav .dropdown-menu .dropdown-item.text-danger {
+    color: var(--color-error-primario); 
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+}
+
+.navbar-nav .nav-link.btn-primary.btn-diccionario {
+  color: var(--color-exito) !important;
+}
+
+.navbar-nav .nav-link.btn-primary.btn-juego {
+  color: var(--color-primario) !important;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item.text-danger:hover {
+  background-color: var(--color-error-secundario);
+  color: white !important;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item.active,
+.navbar-nav .dropdown-menu .dropdown-item:active {
+  background-color: transparent;
+  color: var(--color-texto-claro);
+}
