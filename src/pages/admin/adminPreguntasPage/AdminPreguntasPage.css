@@ -1,0 +1,105 @@
+.admin-preguntas-page {
+    padding: 2rem;
+    font-family: sans-serif;
+}
+
+.admin-preguntas-page h1 {
+    margin-bottom: 1.5rem;
+}
+
+.preguntas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+.preguntas-table th,
+.preguntas-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.preguntas-table th {
+    background-color: #f2f2f2;
+}
+
+.preguntas-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    padding: 5px 0;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 1.5rem;
+}
+
+.form-actions button {
+    margin-left: 10px;
+}
+
+.preguntas-table td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.preguntas-table td a:hover {
+    text-decoration: underline;
+}

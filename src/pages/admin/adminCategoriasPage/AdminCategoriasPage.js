@@ -5,7 +5,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { useToast } from '../../../context/ToastContext';
 import Loader from '../../../components/ui/Loader/Loader';
 import {
-    getCategorias,
+    obtenerCategorias,
     buscarCategoria,
     crearCategoria,
     eliminarCategoria,
@@ -56,7 +56,7 @@ const AdminCategoriesPage = () => {
         try {
             const data = nombre.trim() 
                 ? await buscarCategoria(nombre, token)
-                : await getCategorias(token);
+                : await obtenerCategorias(token);
             
             setCategorias(data.map(c => ({ 
                 id: c.id || c.idCategoria, 

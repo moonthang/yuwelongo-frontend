@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import SessionExpiredModal from "../components/common/SessionExpiredModal";
+import { fetchWithAuth } from "./api";
 
 const AuthContext = createContext();
 
@@ -48,10 +49,16 @@ export function AuthProvider({ children }) {
     navigate("/");
   };
 
-  const logout = () => {
-    sessionStorage.clear();
-    setUser(null);
-    navigate("/");
+  const logout = async () => {
+    try {
+      await fetchWithAuth('/logout', { method: 'POST' });
+    } catch (error) {
+      console.error("Error al contactar el endpoint de logout:", error);
+    } finally {
+      sessionStorage.clear();
+      setUser(null);
+      navigate("/");
+    }
   };
 
   const value = { user, login, logout, isSessionExpired, setIsSessionExpired, navigate };

@@ -16,7 +16,7 @@ export async function crearUsuario(usuarioData) {
   return data;
 }
 
-export async function getUsuarios() {
+export async function obtenerUsuarios() {
   const res = await fetchWithAuth('/usuarios');
   if (!res.ok) {
     const errorData = await res.json();
@@ -25,7 +25,7 @@ export async function getUsuarios() {
   return res.json();
 }
 
-export async function getUsuarioById(id) {
+export async function obtenerUsuarioPorId(id) {
   const res = await fetchWithAuth(`/usuarios/${id}`);
   if (res.status === 404) {
     const errorData = await res.json();
@@ -37,7 +37,7 @@ export async function getUsuarioById(id) {
   return res.json();
 }
 
-export async function getUsuarioByCorreo(correo) {
+export async function obtenerUsuarioPorCorreo(correo) {
   const res = await fetchWithAuth(`/usuarios?correo=${encodeURIComponent(correo)}`);
   if (res.status === 404) {
     const errorData = await res.json();
@@ -50,8 +50,8 @@ export async function getUsuarioByCorreo(correo) {
 }
 
 
-export async function updateUsuario(usuarioData) {
-  const res = await fetchWithAuth('/usuarios/', { 
+export async function actualizarUsuario(usuarioData) {
+  const res = await fetchWithAuth('/usuarios', { 
     method: "PUT",
     body: JSON.stringify(usuarioData),
   });
@@ -66,7 +66,7 @@ export async function updateUsuario(usuarioData) {
   return data;
 }
 
-export async function deleteUsuario(id) {
+export async function eliminarUsuario(id) {
   const res = await fetchWithAuth(`/usuarios/${id}`, {
     method: "DELETE",
   });

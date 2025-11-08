@@ -3,11 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
     crearUsuario,
-    getUsuarios,
-    getUsuarioById,
-    getUsuarioByCorreo,
-    deleteUsuario,
-    updateUsuario
+    obtenerUsuarios,
+    obtenerUsuarioPorId,
+    obtenerUsuarioPorCorreo,
+    eliminarUsuario,
+    actualizarUsuario
 } from '../../../services/userService';
 import { useToast } from '../../../context/ToastContext';
 import Loader from '../../../components/ui/Loader/Loader';
@@ -48,7 +48,7 @@ const AdminUsersPage = () => {
     const fetchUsuarios = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getUsuarios();
+            const data = await obtenerUsuarios();
             setUsuarios(data);
         } catch (error) {
             addToast('error', error.message || 'Error al obtener los usuarios.');
@@ -89,9 +89,9 @@ const AdminUsersPage = () => {
             if (searchType === 'id') {
                 const id = parseInt(searchTerm);
                 if (isNaN(id)) throw new Error("El ID debe ser un número.");
-                result = await getUsuarioById(id);
+                result = await obtenerUsuarioPorId(id);
             } else {
-                result = await getUsuarioByCorreo(searchTerm);
+                result = await obtenerUsuarioPorCorreo(searchTerm);
             }
 
             setUsuarios(Array.isArray(result) ? result : [result]);
@@ -108,7 +108,7 @@ const AdminUsersPage = () => {
         if (!userToDelete) return;
         setLoading(true);
         try {
-            const data = await deleteUsuario(userToDelete.idUsuario);
+            const data = await eliminarUsuario(userToDelete.idUsuario);
             addToast('success', data.mensaje || "Usuario eliminado con éxito.");
             setUserToDelete(null);
             fetchUsuarios();
@@ -130,7 +130,7 @@ const AdminUsersPage = () => {
         setShowEditModal(true);
     };
 
-    const handleUpdateUsuario = async (values, { setSubmitting }) => {
+    const handleActualizarUsuario = async (values, { setSubmitting }) => {
         setSubmitting(true);
 
         if (values.contrasena === '') {
@@ -138,7 +138,7 @@ const AdminUsersPage = () => {
         }
 
         try {
-            const data = await updateUsuario(values);
+            const data = await actualizarUsuario(values);
             addToast('success', data.mensaje || "Usuario actualizado con éxito.");
             setShowEditModal(false);
             fetchUsuarios();
@@ -163,7 +163,7 @@ const AdminUsersPage = () => {
                         <Formik
                             initialValues={currentEditUser}
                             validationSchema={EditarUsuarioSchema}
-                            onSubmit={handleUpdateUsuario}
+                            onSubmit={handleActualizarUsuario}
                         >
                             {({ errors, touched, isSubmitting }) => (
                                 <Form>
@@ -312,8 +312,8 @@ const AdminUsersPage = () => {
                             </form>
 
                             <div className="table-responsive rounded">
-                                <table className="table table-hover">
-                                    <thead className="bg-light">
+                                <table className="table">
+                                    <thead className="table-light">
                                         <tr>
                                             <th>ID</th>
                                             <th>Nombre</th>

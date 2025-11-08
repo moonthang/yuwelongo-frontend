@@ -1,7 +1,7 @@
 import { fetchWithAuth } from "../context/api";
 import { subirArchivo } from "./mediaService";
 
-export async function getCategorias() {
+export async function obtenerCategorias() {
     const res = await fetchWithAuth('/categorias');
     if (!res.ok) throw new Error("Error al obtener categorías");
     return res.json();
@@ -32,7 +32,7 @@ export async function crearCategoria(data) {
 }
 
 export async function eliminarCategoria(id) {
-    const res = await fetchWithAuth(`/categorias?id=${id}`, {
+    const res = await fetchWithAuth(`/categorias/${id}`, {
         method: "DELETE",
     });
     if (!res.ok) throw new Error("Error al eliminar categoría");

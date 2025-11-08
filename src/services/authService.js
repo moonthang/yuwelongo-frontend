@@ -1,5 +1,7 @@
+import { API_URL } from "../config";
+
 export async function loginUser(correo, contrasena) {
-  const res = await fetch("http://localhost:8080/YuweLongo-Backend/api/login", {
+  const res = await fetch(`${API_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,5 +18,9 @@ export async function loginUser(correo, contrasena) {
     throw new Error("Error en el servidor o credenciales inválidas");
   }
 
-  return res.json();
+  const data = await res.json();
+  const adaptedData = { ...data, token: data.accessToken };
+  delete adaptedData.accessToken;
+
+  return adaptedData;
 }

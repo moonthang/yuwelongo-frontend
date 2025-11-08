@@ -1,54 +1,49 @@
-import { API_URL } from "../config";
+import { fetchWithAuth } from "../context/api";
 
-export async function getPalabras(token) {
-    const res = await fetch(`${API_URL}/palabras`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
+export async function obtenerPalabras() {
+    const res = await fetchWithAuth('/palabras');
     if (!res.ok) throw new Error("Error al obtener palabras");
     return res.json();
 }
 
-export async function buscarPalabra(query, tipo, token) {
-    const url = `${API_URL}/palabras?${tipo}=${encodeURIComponent(query)}`;
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+export async function buscarPalabra(query, tipo) {
+    const url = `/palabras?${tipo}=${encodeURIComponent(query)}`;
+    const res = await fetchWithAuth(url);
     if (!res.ok) throw new Error("Error al buscar palabra");
     return res.json();
 }
 
-export async function crearPalabra(data, token) {
-    const res = await fetch(`${API_URL}/palabras`, {
+export async function crearPalabra(data) {
+    const { idCategoria, ...palabraData } = data;
+    const url = `/palabras?idCategoria=${idCategoria}`;
+
+    const res = await fetchWithAuth(url, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
+        body: JSON.stringify(palabraData),
     });
     if (!res.ok) throw new Error("Error al crear palabra");
     return res.json();
 }
 
-export async function actualizarPalabra(data, token) {
-    if (!data.id) {
+export async function actualizarPalabra(data) {
+    if (!data.idPalabra) {
         throw new Error("El ID de la palabra es requerido para actualizar.");
     }
-    const res = await fetch(`${API_URL}/palabras`, {
+    const { idCategoria, ...palabraData } = data;
+    const url = `/palabras?idCategoria=${idCategoria}`;
+    
+    const res = await fetchWithAuth(url, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
+        body: JSON.stringify(palabraData),
     });
     if (!res.ok) throw new Error("Error al actualizar la palabra");
     return res.json();
 }
 
-export async function eliminarPalabra(id, token) {    
-    const res = await fetch(`${API_URL}/palabras?id=${id}`, {
+export async function eliminarPalabra(id) {
+    const res = await fetchWithAuth(`/palabras/${id}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
     });
-    if (!res.ok) throw new Error("Error al eliminar palabra");
-    return { success: true, message: "Palabra eliminada correctamente" };
+    if (!res.ok) throw new Error("Error al eliminar la palabra");
+    return res.json();
 }

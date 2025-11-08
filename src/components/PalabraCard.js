@@ -14,9 +14,12 @@ const PalabraCard = ({ palabra, categorias = [], variant = 'public', onEdit, onD
 
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
-    const categoriaId = palabra.idCategoria || palabra.id_categoria;
-    const categoria = categoriaId ? categorias.find(c => c.id === Number(categoriaId)) : null;
-    const categoriaInfo = categoria ? categoria.nombre : (categoriaId || 'Sin categoría');
+    const categoriaId = palabra.categoria?.idCategoria;
+    const categoria = categoriaId ? categorias.find(c => c.id === categoriaId) : null;
+    const categoriaInfo = palabra.categoria?.nombre 
+        || (categoria ? categoria.nombre : (categoriaId || 'Sin categoría'));
+
+   
     const handlePlayAudio = (e) => {
         e.stopPropagation();
         if (!audioRef.current) {

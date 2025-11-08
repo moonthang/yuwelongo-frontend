@@ -1,6 +1,6 @@
 import { API_URL } from "../config";
 
-const getToken = () => localStorage.getItem("token");
+const getToken = () => sessionStorage.getItem("token");
 
 export async function fetchWithAuth(endpoint, options = {}) {
     const token = getToken();

@@ -5,13 +5,13 @@ import * as Yup from 'yup';
 import { useAuth } from "../../../context/AuthContext";
 import { useToast } from "../../../context/ToastContext";
 import {
-    getPalabras,
+    obtenerPalabras,
     crearPalabra,
     actualizarPalabra,
     eliminarPalabra,
     buscarPalabra,
 } from "../../../services/palabraService";
-import { getCategorias } from "../../../services/categoriasService";
+import { obtenerCategorias } from "../../../services/categoriasService";
 import { subirArchivo, eliminarArchivo } from "../../../services/mediaService";
 import Loader from "../../../components/ui/Loader/Loader";
 import PalabraCard from "../../../components/PalabraCard";
@@ -62,8 +62,8 @@ export default function AdminPalabrasPage() {
         try {
             setLoading(true);
             const [palabrasData, categoriasData] = await Promise.all([
-                getPalabras(user.token),
-                getCategorias()
+                obtenerPalabras(user.token),
+                obtenerCategorias()
             ]);
             setPalabras(palabrasData);
             const normalizedCategorias = categoriasData.map(c => ({
@@ -144,6 +144,10 @@ export default function AdminPalabrasPage() {
             setImagePreview(null);
             setCreateCategoriaSearchTerm('');
             setCreateFilteredCategorias([]);
+            const imageInput = document.querySelector('input[name="imagenFile"]');
+            const audioInput = document.querySelector('input[name="audioFile"]');
+            if (imageInput) imageInput.value = '';
+            if (audioInput) audioInput.value = '';
             cargarDatos();
         } catch (error) {
             addToast("error", `Error al crear: ${error.message}`);
@@ -193,7 +197,7 @@ export default function AdminPalabrasPage() {
             imagenPath: palabra.imagen_path || "",
             audioUrl: palabra.audioUrl || "",
             audioPath: palabra.audio_path || "",
-            idCategoria: palabra.idCategoria || null,
+            idCategoria: palabra.categoria?.idCategoria || palabra.idCategoria || null,
         });
         setShowEditModal(true);
         setEditSelectedFile({ imagen: null, audio: null });
