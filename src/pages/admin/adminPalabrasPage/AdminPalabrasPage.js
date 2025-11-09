@@ -66,11 +66,7 @@ export default function AdminPalabrasPage() {
                 obtenerCategorias()
             ]);
             setPalabras(palabrasData);
-            const normalizedCategorias = categoriasData.map(c => ({
-                ...c,
-                id: c.id || c.id_categoria || c.idCategoria
-            }));
-            setCategorias(normalizedCategorias);
+            setCategorias(categoriasData);
 
         } catch (error) {
             addToast("error", "Error al cargar datos: " + error.message);
@@ -189,7 +185,7 @@ export default function AdminPalabrasPage() {
 
     const handleOpenEditModal = (palabra) => {
         setCurrentEditPalabra({
-            id: palabra.id,
+            idPalabra: palabra.idPalabra,
             palabraNasa: palabra.palabraNasa,
             traduccion: palabra.traduccion || "",
             fraseEjemplo: palabra.fraseEjemplo || palabra.frase_ejemplo || "",
@@ -209,7 +205,7 @@ export default function AdminPalabrasPage() {
         if (!palabraAEliminar) return;
         setLoading(true);
         try {
-            await eliminarPalabra(palabraAEliminar.id, user.token);
+            await eliminarPalabra(palabraAEliminar.idPalabra, user.token);
             if (palabraAEliminar.imagenPath) await eliminarArchivo(palabraAEliminar.imagenPath);
             if (palabraAEliminar.audioPath) await eliminarArchivo(palabraAEliminar.audioPath);
             addToast("success", "Palabra eliminada correctamente.");
@@ -312,7 +308,7 @@ export default function AdminPalabrasPage() {
                                             {createFilteredCategorias.length > 0 && (
                                                 <ul className="list-group position-absolute w-100" style={{ zIndex: 1000 }}>
                                                     {createFilteredCategorias.map(c => (
-                                                        <li key={c.id} className="list-group-item list-group-item-action" onClick={() => { setFieldValue('idCategoria', c.id); setCreateCategoriaSearchTerm(`${c.nombre} (ID: ${c.id})`); setCreateFilteredCategorias([]); }}>{`${c.nombre} (ID: ${c.id})`}</li>
+                                                        <li key={c.idCategoria} className="list-group-item list-group-item-action" onClick={() => { setFieldValue('idCategoria', c.idCategoria); setCreateCategoriaSearchTerm(`${c.nombre} (ID: ${c.idCategoria})`); setCreateFilteredCategorias([]); }}>{`${c.nombre} (ID: ${c.idCategoria})`}</li>
                                                     ))}
                                                 </ul>
                                             )}
@@ -344,7 +340,7 @@ export default function AdminPalabrasPage() {
                             </div>
                             <div className="row row-cols-1 row-cols-lg-2 g-4">
                                 {currentPalabras.map((p) => {
-                                    return (<div key={p.id || p.id_palabra} className="col">
+                                    return (<div key={p.idPalabra} className="col">
                                         <PalabraCard
                                             palabra={p}
                                             variant="admin"
@@ -385,10 +381,15 @@ export default function AdminPalabrasPage() {
                     <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
-                                <div className="modal-header"><h5 className="modal-title">Editar Palabra</h5><button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button></div>
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Editar Palabra ID: {currentEditPalabra.idPalabra}</h5>
+                                    <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
+                                </div>
                                 <Formik initialValues={currentEditPalabra} validationSchema={PalabraSchema} onSubmit={handleUpdatePalabra} enableReinitialize>
                                     {({ isSubmitting, values, setFieldValue }) => (
                                         <Form>
+                                            <Field type="hidden" name="idPalabra" />
+
                                             <div className="modal-body">
                                                 <div className="mb-3"><label>Palabra Nasa</label><Field name="palabraNasa" type="text" className="form-control" /><ErrorMessage name="palabraNasa" component="div" className="text-danger" /></div>
                                                 <div className="mb-3"><label>Traducción</label><Field name="traduccion" type="text" className="form-control" /></div>
@@ -397,8 +398,7 @@ export default function AdminPalabrasPage() {
                                                     <label>
                                                         Categoría
                                                         {values.idCategoria && (
-                                                            <span className="text-muted small ms-2">
-                                                                (Actual: {categorias.find(c => c.id === values.idCategoria)?.nombre || 'Desconocida'} (ID: {values.idCategoria}))
+                                                            <span className="text-muted small ms-2">(Actual: {categorias.find(c => c.idCategoria === values.idCategoria)?.nombre || 'Desconocida'} (ID: {values.idCategoria}))
                                                             </span>
                                                         )}
                                                     </label>
@@ -412,7 +412,7 @@ export default function AdminPalabrasPage() {
                                                     {filteredCategorias.length > 0 && (
                                                         <ul className="list-group position-absolute w-100" style={{ zIndex: 1000 }}>
                                                             {filteredCategorias.map(c => (
-                                                                <li key={c.id} className="list-group-item list-group-item-action" onClick={() => { setFieldValue('idCategoria', c.id); setCategoriaSearchTerm(`${c.nombre} (ID: ${c.id})`); setFilteredCategorias([]); }}>{`${c.nombre} (ID: ${c.id})`}</li>
+                                                                <li key={c.idCategoria} className="list-group-item list-group-item-action" onClick={() => { setFieldValue('idCategoria', c.idCategoria); setCategoriaSearchTerm(`${c.nombre} (ID: ${c.idCategoria})`); setFilteredCategorias([]); }}>{`${c.nombre} (ID: ${c.idCategoria})`}</li>
                                                             ))}
                                                         </ul>
                                                     )}
