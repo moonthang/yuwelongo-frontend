@@ -1,0 +1,58 @@
+.diccionario-page {
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.diccionario-page .diccionario-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.diccionario-page .form-control {
+    border-radius: 20px;
+    padding: 0.75rem 1.25rem;
+    padding-left: 3rem;
+    background-color: white;
+    border: 1px solid #ced4da;
+}
+
+.diccionario-page .form-control:focus {
+    border-color: var(--color-exito);
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-exito-rgb, 40, 167, 69), 0.25);
+    outline: 0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.categorias-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.palabra-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.categorias-filter-bar .btn-outline-primary {
+    --bs-btn-color: var(--color-exito);
+    --bs-btn-border-color: var(--color-exito);
+    --bs-btn-hover-bg: var(--color-exito);
+    --bs-btn-hover-border-color: var(--color-exito);
+    --bs-btn-active-bg: var(--color-exito);
+    --bs-btn-active-border-color: var(--color-exito);
+    --bs-btn-focus-shadow-rgb: var(--color-exito-rgb, 40, 167, 69);
+}

@@ -7,6 +7,12 @@ export async function obtenerCategorias() {
     return res.json();
 }
 
+export async function buscarCategoriaPorId(id) {
+    const res = await fetchWithAuth(`/categorias/${id}`);
+    if (!res.ok) throw new Error("Error al buscar la categoría por ID");
+    return res.json();
+}
+
 export async function buscarCategoria(nombre) {
     const res = await fetchWithAuth(`/categorias?nombre=${encodeURIComponent(nombre)}`);
     if (!res.ok) throw new Error("Error al buscar categoría");
