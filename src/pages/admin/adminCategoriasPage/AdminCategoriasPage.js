@@ -237,7 +237,7 @@ const AdminCategoriesPage = () => {
         if (!showEditModal || !currentEditCategory) return null;
 
         return (
-            <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <div className="modal d-block" tabIndex="-1" >
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">

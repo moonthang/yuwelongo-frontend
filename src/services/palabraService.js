@@ -47,3 +47,12 @@ export async function eliminarPalabra(id) {
     if (!res.ok) throw new Error("Error al eliminar la palabra");
     return res.json();
 }
+
+export async function obtenerPalabrasPorCategoria(idCategoria) {
+    const res = await fetchWithAuth(`/palabras/categoria/${idCategoria}`);
+    if (res.status === 404) {
+        return [];
+    }
+    if (!res.ok) throw new Error("Error al obtener palabras por categoría");
+    return res.json();
+}

@@ -16,7 +16,9 @@ import Loader from "./components/ui/Loader/Loader";
 // Public Pages
 import InicioPage from "./pages/public/InicioPage/InicioPage";
 import DiccionarioPage from "./pages/public/diccionarioPage/DiccionarioPage";
+import CategoriaPalabrasPage from "./pages/public/diccionarioPage/CategoriaPalabrasPage";
 import JuegoPage from "./pages/public/juegoPage/JuegoPage";
+import CategoriasPage from "./pages/public/diccionarioPage/CategoriasPage";
 import LoginPage from "./pages/public/loginPage/LoginPage";
 import RegisterPage from "./pages/public/registerPage/RegisterPage";
 
@@ -62,6 +64,8 @@ const router = createBrowserRouter([
       // Public
       { path: "/", element: <InicioPage /> },
       { path: "/diccionario", element: <DiccionarioPage /> },
+      { path: "/categorias", element: <CategoriasPage /> },
+      { path: "/diccionario/categoria/:id", element: <CategoriaPalabrasPage /> },
       { path: "/juego", element: <JuegoPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
@@ -99,7 +103,7 @@ const router = createBrowserRouter([
         path: "/admin/preguntas",
         element: <ProtectedRoute roles={["ADMIN"]}><AdminPreguntasPage /></ProtectedRoute>,
       },
-      // Default
+      // 404
       { path: "*", element: <NotFoundPage /> },
     ],
   },
