@@ -29,7 +29,7 @@ export default function Header() {
                 <Link className="nav-link btn btn-primary btn-diccionario me-2" to="/diccionario"><i className="bi bi-book me-1"></i>Diccionario</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link btn btn-primary btn-juego me-2" to="/juego"><i className="bi bi-controller me-1"></i>Juego</Link>
+                <Link className="nav-link btn btn-primary btn-juego me-2" to="/juego-preview"><i className="bi bi-controller me-1"></i>Juego</Link>
               </li>
             </ul>
             <ul className="navbar-nav">

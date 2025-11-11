@@ -74,12 +74,11 @@ const AdminPreguntasPage = () => {
                 throw new Error("La palabra seleccionada no es válida.");
             }
 
-            const respuestaCorrecta = palabraSeleccionada.traduccion;
+            const respuestaCorrecta = palabraSeleccionada.palabraNasa;
             const opciones = [values.opcion1, values.opcion2, values.opcion3, values.opcion4];
             if (!opciones.includes(respuestaCorrecta)) {
-                throw new Error("La respuesta correcta (traducción de la palabra) debe ser una de las cuatro opciones.");
+                throw new Error("La respuesta correcta (palabra Nasa) debe ser una de las cuatro opciones.");
             }
-
             const payload = {
                 ...values,
                 respuestaCoreccta: respuestaCorrecta,
@@ -109,12 +108,11 @@ const AdminPreguntasPage = () => {
                 throw new Error("La palabra seleccionada no es válida.");
             }
 
-            const respuestaCorrecta = palabraSeleccionada.traduccion;
+            const respuestaCorrecta = palabraSeleccionada.palabraNasa;
             const opciones = [values.opcion1, values.opcion2, values.opcion3, values.opcion4];
             if (!opciones.includes(respuestaCorrecta)) {
-                throw new Error("La respuesta correcta (traducción de la palabra) debe ser una de las cuatro opciones.");
+                throw new Error("La respuesta correcta (palabra Nasa) debe ser una de las cuatro opciones.");
             }
-
             const payload = {
                 ...values,
                 respuestaCoreccta: respuestaCorrecta,
@@ -167,12 +165,11 @@ const AdminPreguntasPage = () => {
 
     const FormularioPregunta = ({ isSubmitting, values, errors, touched, setFieldValue }) => {
         const palabraOptions = palabras.map(p => ({ value: p.idPalabra, label: p.palabraNasa, frase: p.fraseEjemplo, traduccion: p.traduccion }));
-        const palabraOptionsForSelect = palabras.map(p => ({ value: p.traduccion, label: p.traduccion }));
+        const palabraOptionsForSelect = palabras.map(p => ({ value: p.palabraNasa, label: p.palabraNasa })); // Opciones son palabras Nasa
 
         const handlePalabraCorrectaChange = (option) => {
             setFieldValue('idPalabra', option.value);
             setFieldValue('preguntaTexto', option.frase);
-            setFieldValue('opcion1', option.traduccion);
         };
 
         const palabraSeleccionada = palabraOptions.find(p => p.value === values.idPalabra);
@@ -393,11 +390,12 @@ const AdminPreguntasPage = () => {
 
                     <div className="col-lg-7">
                         <section className="p-4 border rounded shadow-sm bg-white h-100">
-                            <h2>Listado de Preguntas</h2>
-                            <div className="row row-cols-1 g-4" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+                            <h2 className="mb-3">Listado de Preguntas</h2>
+                            <div className="row row-cols-1 g-4 flex-grow-1 overflow-auto">
                                 {preguntas.length > 0 ? (
                                     preguntas.map((pregunta) => (
-                                        <AdminPreguntaCard                                            key={pregunta.idPregunta}
+                                        <AdminPreguntaCard
+                                            key={pregunta.idPregunta}
                                             pregunta={pregunta}
                                             onEdit={handleOpenEditModal}
                                             onDelete={setPreguntaToDelete}
