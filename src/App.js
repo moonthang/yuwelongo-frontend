@@ -19,6 +19,7 @@ import InicioPage from "./pages/public/InicioPage/InicioPage";
 import DiccionarioPage from "./pages/public/diccionarioPage/DiccionarioPage";
 import CategoriaPalabrasPage from "./pages/public/diccionarioPage/CategoriaPalabrasPage";
 import JuegoPage from "./pages/public/juegoPage/JuegoPage";
+import JuegoPreviewPage from "./pages/public/juegoPage/JuegoPreviewPage";
 import CategoriasPage from "./pages/public/diccionarioPage/CategoriasPage";
 import LoginPage from "./pages/public/loginPage/LoginPage";
 import RegisterPage from "./pages/public/registerPage/RegisterPage";
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
       { path: "/categorias", element: <CategoriasPage /> },
       { path: "/diccionario/categoria/:id", element: <CategoriaPalabrasPage /> },
       { path: "/juego", element: <JuegoPage /> },
+      { path: "/juego-preview", element: <JuegoPreviewPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
       // User
