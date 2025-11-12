@@ -42,6 +42,10 @@ export default function JuegoPreviewPage() {
             <i className="bi bi-clock"></i>
             <span>5-10 min</span>
           </div>
+          <div className="ranking-info-tag">
+            <i className="bi bi-stars"></i>
+            <Link to="/ranking">Ver Ranking</Link>
+          </div>
         </div>
         <section className="juego-preview-section">
           <h3>Objetivo del Juego</h3>

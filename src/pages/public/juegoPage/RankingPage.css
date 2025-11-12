@@ -1,0 +1,122 @@
+.ranking-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 60px);
+    padding: 2rem 1rem;
+}
+
+.ranking-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-bg-primario);
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+}
+
+.ranking-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-principal);
+    margin-bottom: 0.5rem;
+}
+
+.ranking-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-texto-claro);
+    margin-bottom: 2.5rem;
+}
+
+.ranking-selector {
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border-radius: 25px;
+    padding: 0.4rem;
+    margin-bottom: 2rem;
+}
+
+.selector-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    background-color: transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-texto-claro);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.selector-btn.active {
+    background-color: var(--color-primario);
+    color: white;
+    box-shadow: 0 4px 12px rgba(251, 133, 12, 0.3);
+}
+
+.selector-btn:not(.active):hover {
+    background-color: #e9e9e9;
+    color: var(--color-principal);
+}
+
+.ranking-content {
+    text-align: left;
+}
+
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ranking-table th, .ranking-table td {
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+    text-align: left;
+}
+
+.ranking-table th {
+    font-weight: 600;
+    color: var(--color-texto-claro);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.ranking-table td {
+    font-weight: 500;
+    color: var(--color-principal);
+}
+
+.ranking-table tr:last-child td {
+    border-bottom: none;
+}
+
+.ranking-position {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    color: white;
+}
+
+.ranking-position.pos-1 { background-color: #ffd700; }
+.ranking-position.pos-2 { background-color: #c0c0c0; }
+.ranking-position.pos-3 { background-color: #cd7f32; }
+.ranking-position:not(.pos-1):not(.pos-2):not(.pos-3) {
+    background-color: var(--color-texto-claro);
+}
+
+.ranking-loader, .ranking-empty, .ranking-error {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-texto-claro);
+}

@@ -55,6 +55,55 @@
     color: var(--color-primario);
 }
 
+.ranking-info-tag {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    background-color: white;
+    color: var(--color-principal);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.ranking-info-tag::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(
+        var(--color-primario),
+        var(--color-terciario),
+        var(--color-bg-terciario),
+        var(--color-bg-cuarternario),
+        var(--color-exito),
+        var(--color-primario)
+    );
+    animation: rotate-gradient 4s linear infinite;
+    z-index: -1;
+}
+
+.ranking-info-tag::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 2px;
+    top: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    background: white;
+    border-radius: 18px;
+}
+
+
+.ranking-info-tag a {
+    color: inherit;
+    text-decoration: none;
+}
+
 .juego-preview-section {
     text-align: left;
     margin-bottom: 2rem;
@@ -98,4 +147,13 @@
 .juego-preview-play-button:hover {
     background-color: #fb930c;
     transform: scale(1.02);
+}
+
+@keyframes rotate-gradient {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
