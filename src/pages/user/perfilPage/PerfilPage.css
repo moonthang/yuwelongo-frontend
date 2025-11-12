@@ -1,0 +1,18 @@
+.perfil-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.perfil-card {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.perfil-card .form-label {
+  font-weight: 600;
+}
+
+.perfil-card input[disabled] {
+  background-color: #f8f9fa;
+}

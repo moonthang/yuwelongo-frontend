@@ -1,7 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './PalabraCard.css';
+import { useAuth } from '../context/AuthContext';
 
-const PalabraCard = ({ palabra, categorias = [], variant = 'public', onEdit, onDelete }) => {
+const PalabraCard = ({ 
+    palabra, 
+    categorias = [], 
+    variant = 'public', 
+    onEdit, 
+    onDelete,
+    esFavorito,
+    onToggleFavorito 
+}) => {
+    const { user } = useAuth();
     const {
         palabraNasa,
         traduccion,
@@ -76,7 +86,18 @@ const PalabraCard = ({ palabra, categorias = [], variant = 'public', onEdit, onD
                 )}
             </div>
             <div className="palabra-card-content">
-                <h3 className="palabra-card-title">{palabraNasa}</h3>
+                <div className="palabra-card-header">
+                    <h3 className="palabra-card-title">{palabraNasa}</h3>
+                    {variant !== 'admin' && user && onToggleFavorito && (
+                        <button 
+                            className={`palabra-card-favorite-button ${esFavorito ? 'favorited' : ''}`}
+                            onClick={onToggleFavorito}
+                            aria-label={esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                        >
+                            <i className={`bi ${esFavorito ? 'bi-bookmark-fill' : 'bi-bookmark'}`}></i>
+                        </button>
+                    )}
+                </div>
                 <p className="palabra-card-translation">{traduccion}</p>
                 {variant === 'admin' && <p className="palabra-card-category">Categoría: <strong>{categoriaInfo}</strong></p>}
                 {fraseEjemplo && <p className="palabra-card-example"><em>{renderFraseEjemplo()}</em></p>}
