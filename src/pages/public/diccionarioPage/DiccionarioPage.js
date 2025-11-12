@@ -4,6 +4,9 @@ import { obtenerPalabras } from '../../../services/palabraService';
 import { obtenerCategorias } from '../../../services/categoriasService';
 import PalabraCard from '../../../components/PalabraCard';
 import './DiccionarioPage.css';
+import { useAuth } from '../../../context/AuthContext';
+import { agregarFavorito, eliminarFavorito, obtenerFavoritosPorUsuario } from '../../../services/favoritosService';
+import { useToast } from '../../../context/ToastContext';
 import Loader from '../../../components/ui/Loader/Loader';
 
 const DiccionarioPage = () => {
@@ -13,6 +16,9 @@ const DiccionarioPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { user } = useAuth();
+    const { addToast } = useToast();
+    const [favoritosMap, setFavoritosMap] = useState(new Map());
 
     useEffect(() => {
         const cargarDatos = async () => {
@@ -36,6 +42,64 @@ const DiccionarioPage = () => {
 
         cargarDatos();
     }, []);
+
+    useEffect(() => {
+        let mounted = true;
+        async function cargarFavoritos() {
+            if (!user || !user.idUsuario) {
+                setFavoritosMap(new Map());
+                return;
+            }
+            try {
+                const favs = await obtenerFavoritosPorUsuario(user.idUsuario);
+                if (!mounted) return;
+                const map = new Map();
+                (favs || []).forEach(fav => {
+                    const pid = fav.palabra?.idPalabra || fav.idPalabra || fav.palabraId;
+                    const fid = fav.idFavorito || fav.id || fav.idFav || fav.idFavorito;
+                    if (pid) map.set(pid, fid || fav);
+                });
+                setFavoritosMap(map);
+            } catch (err) {
+                console.error('Error cargando favoritos:', err);
+            }
+        }
+
+        cargarFavoritos();
+        return () => { mounted = false; };
+    }, [user]);
+
+    const toggleFavorito = async (palabra) => {
+        if (!user || !user.idUsuario) return;
+        const idPalabra = palabra.idPalabra || palabra.id || palabra.id;
+        const existing = favoritosMap.get(idPalabra);
+        if (existing) {
+            try {
+                const favId = typeof existing === 'object' ? (existing.idFavorito || existing.id || existing.idFav) : existing;
+                await eliminarFavorito(favId);
+                const newMap = new Map(favoritosMap);
+                newMap.delete(idPalabra);
+                setFavoritosMap(newMap);
+                addToast('success', 'Palabra eliminada de favoritos.');
+            } catch (err) {
+                console.error('Error eliminando favorito:', err);
+                addToast('error', 'No se pudo eliminar el favorito.');
+            }
+        } else {
+            try {
+                const res = await agregarFavorito(user.idUsuario, idPalabra);
+                const fid = res?.idFavorito || res?.id || res?.idFav;
+                const newMap = new Map(favoritosMap);
+                if (fid) newMap.set(idPalabra, fid);
+                else newMap.set(idPalabra, res);
+                setFavoritosMap(newMap);
+                addToast('success', 'Palabra agregada a favoritos.');
+            } catch (err) {
+                console.error('Error agregando favorito:', err);
+                addToast('error', 'No se pudo agregar a favoritos.');
+            }
+        }
+    };
 
     useEffect(() => {
         const lowercasedFilter = searchTerm.toLowerCase();
@@ -90,7 +154,13 @@ const DiccionarioPage = () => {
                         {filteredPalabras.length > 0 ? (
                             filteredPalabras.map(palabra => (
                                 <div key={palabra.idPalabra} className="col-lg-4 col-md-6 mb-4">
-                                    <PalabraCard palabra={palabra} categorias={categorias} variant="public" />
+                                    <PalabraCard
+                                        palabra={palabra}
+                                        categorias={categorias}
+                                        variant="public"
+                                        onToggleFavorito={() => toggleFavorito(palabra)}
+                                        esFavorito={favoritosMap.has(palabra.idPalabra)}
+                                    />
                                 </div>
                             ))
                         ) : (
