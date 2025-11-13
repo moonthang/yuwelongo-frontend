@@ -165,7 +165,7 @@ const AdminPreguntasPage = () => {
 
     const FormularioPregunta = ({ isSubmitting, values, errors, touched, setFieldValue }) => {
         const palabraOptions = palabras.map(p => ({ value: p.idPalabra, label: p.palabraNasa, frase: p.fraseEjemplo, traduccion: p.traduccion }));
-        const palabraOptionsForSelect = palabras.map(p => ({ value: p.palabraNasa, label: p.palabraNasa })); // Opciones son palabras Nasa
+        const palabraOptionsForSelect = palabras.map(p => ({ value: p.palabraNasa, label: p.palabraNasa }));
 
         const handlePalabraCorrectaChange = (option) => {
             setFieldValue('idPalabra', option.value);

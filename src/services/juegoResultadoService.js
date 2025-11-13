@@ -38,8 +38,16 @@ export async function obtenerPuntajeTotalUsuario(idUsuario) {
     return res.json();
 }
 
-export async function obtenerRankingGlobal(limite = 10) {
-    const res = await fetchWithAuth(`${BASE_URL}/ranking?limite=${limite}`);
+export async function obtenerRankingGlobal(params) {
+    let url = `${BASE_URL}/ranking`;
+
+    if (typeof params === 'object' && params.idPartida) {
+        url = `${BASE_URL}/ranking/${params.idPartida}`;
+    } else if (typeof params === 'number') {
+        url = `${BASE_URL}/ranking?limite=${params}`;
+    }
+
+    const res = await fetchWithAuth(url);
     if (!res.ok) throw new Error("Error al obtener el ranking global");
     return res.json();
 }
