@@ -79,7 +79,7 @@ const AdminPreguntasPage = () => {
                 throw new Error("La palabra seleccionada no es válida.");
             }
 
-            const respuestaCorrecta = palabraSeleccionada.traduccion;
+            const respuestaCorrecta = palabraSeleccionada.palabraNasa;
             const opciones = [values.opcion1, values.opcion2, values.opcion3, values.opcion4];
             if (!opciones.includes(respuestaCorrecta)) {
                 throw new Error("La respuesta correcta (traducción de la palabra) debe ser una de las cuatro opciones.");
@@ -114,7 +114,7 @@ const AdminPreguntasPage = () => {
                 throw new Error("La palabra seleccionada no es válida.");
             }
 
-            const respuestaCorrecta = palabraSeleccionada.traduccion;
+            const respuestaCorrecta = palabraSeleccionada.palabraNasa;
             const opciones = [values.opcion1, values.opcion2, values.opcion3, values.opcion4];
             if (!opciones.includes(respuestaCorrecta)) {
                 throw new Error("La respuesta correcta (traducción de la palabra) debe ser una de las cuatro opciones.");
@@ -176,7 +176,7 @@ const AdminPreguntasPage = () => {
         const handlePalabraCorrectaChange = (option) => {
             setFieldValue('idPalabra', option.value);
             setFieldValue('preguntaTexto', option.frase);
-            setFieldValue('opcion1', option.traduccion);
+            setFieldValue('opcion1', option.label); // Usamos 'label' que es 'palabraNasa'
             if (!isEditMode) {
                 setFieldValue('opcion2', '');
                 setFieldValue('opcion3', '');
