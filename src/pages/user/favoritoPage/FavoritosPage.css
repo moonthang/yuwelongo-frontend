@@ -1,0 +1,47 @@
+.favoritos-page {
+    min-height: 100vh;
+}
+.search-wrapper {
+    position: relative;
+}
+
+.favoritos-page .form-control,
+.favoritos-page .form-select {
+    height: calc(2.5rem + 2px);
+    padding: .5rem 1rem;
+    font-size: 1rem;
+}
+
+.favoritos-page .form-control {
+    border-radius: 20px;
+    padding-left: 3rem;
+    background-color: white;
+    border: 1px solid #ced4da;
+}
+
+.favoritos-page .form-control:focus {
+    border-color: var(--color-exito);
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-exito-rgb, 4, 165, 126), 0.25);
+    outline: 0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-texto-claro);
+}
+
+.favoritos-page .btn-primary {
+    --bs-btn-color: var(--color-exito);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: var(--color-exito);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: var(--color-exito);
+    --bs-btn-hover-border-color: var(--color-exito);
+    --bs-btn-active-color: white;
+    --bs-btn-active-bg: var(--color-exito);
+    --bs-btn-active-border-color: var(--color-exito);
+    --bs-btn-focus-shadow-rgb: var(--color-exito-rgb, 40, 167, 69);
+}

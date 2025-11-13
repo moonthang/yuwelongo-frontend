@@ -23,7 +23,9 @@ export function AuthProvider({ children }) {
     const token = sessionStorage.getItem("token");
     const nombre = sessionStorage.getItem("nombre");
     const rol = sessionStorage.getItem("rol");
-    return token ? { token, nombre, rol } : null;
+    const correo = sessionStorage.getItem("correo");
+    const idUsuario = sessionStorage.getItem("idUsuario");
+    return token ? { token, nombre, rol, correo, idUsuario: idUsuario ? parseInt(idUsuario, 10) : undefined } : null;
   });
 
   const handleSessionExpired = useCallback(() => {
@@ -45,6 +47,8 @@ export function AuthProvider({ children }) {
     sessionStorage.setItem("token", data.token);
     sessionStorage.setItem("nombre", data.nombre);
     sessionStorage.setItem("rol", data.rol);
+    if (data.correo) sessionStorage.setItem("correo", data.correo);
+    if (data.idUsuario !== undefined && data.idUsuario !== null) sessionStorage.setItem("idUsuario", String(data.idUsuario));
     setUser(data);
     navigate("/");
   };
@@ -62,6 +66,7 @@ export function AuthProvider({ children }) {
   };
 
   const value = { user, login, logout, isSessionExpired, setIsSessionExpired, navigate };
+  value.setUser = setUser;
 
   return (
     <AuthContext.Provider value={value}>

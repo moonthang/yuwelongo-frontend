@@ -29,8 +29,12 @@ export async function actualizarPalabra(data) {
     if (!data.idPalabra) {
         throw new Error("El ID de la palabra es requerido para actualizar.");
     }
-    const { idCategoria, ...palabraData } = data;
-    const url = `/palabras?idCategoria=${idCategoria}`;
+    const { idPalabra, idCategoria, ...palabraData } = data;
+
+    let url = `/palabras/${idPalabra}`;
+    if (idCategoria) {
+        url += `?idCategoria=${idCategoria}`;
+    }
     
     const res = await fetchWithAuth(url, {
         method: "PUT",
@@ -40,8 +44,8 @@ export async function actualizarPalabra(data) {
     return res.json();
 }
 
-export async function eliminarPalabra(id) {
-    const res = await fetchWithAuth(`/palabras/${id}`, {
+export async function eliminarPalabra(idPalabra) {
+    const res = await fetchWithAuth(`/palabras/${idPalabra}`, {
         method: "DELETE",
     });
     if (!res.ok) throw new Error("Error al eliminar la palabra");

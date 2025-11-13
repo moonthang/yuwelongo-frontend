@@ -55,7 +55,7 @@ export async function actualizarCategoria(data) {
         delete categoriaData.imagenFile;
     }
 
-    const res = await fetchWithAuth('/categorias', { 
+    const res = await fetchWithAuth(`/categorias/${categoriaData.id}`, { 
         method: "PUT", 
         body: JSON.stringify(categoriaData),
     });

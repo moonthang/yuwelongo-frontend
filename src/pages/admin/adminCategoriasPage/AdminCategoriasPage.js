@@ -43,6 +43,8 @@ const AdminCategoriesPage = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 4;
     const [editSelectedFile, setEditSelectedFile] = useState(null);
     const [editImagePreview, setEditImagePreview] = useState(null);
 
@@ -89,6 +91,7 @@ const AdminCategoriesPage = () => {
     const handleBuscar = (e) => {
         e.preventDefault();
         fetchCategorias(searchTerm);
+        setCurrentPage(1);
     };
 
     useEffect(() => {
@@ -338,6 +341,17 @@ const AdminCategoriesPage = () => {
 
     if (!user) return <p className="alert alert-danger">❌ **Acceso denegado:** Debes iniciar sesión para administrar categorías.</p>;
     
+    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+    const currentCategorias = categorias.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(categorias.length / ITEMS_PER_PAGE);
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
+
     return (
         <div className="admin-categories-page bg-light flex-grow-1">
             <div className="container py-4">
@@ -405,14 +419,14 @@ const AdminCategoriesPage = () => {
                             <button type="submit" className="btn btn-info me-2" disabled={loading} title="Buscar">
                                 <i className="bi bi-search"></i>
                             </button>
-                            <button type="button" className="btn btn-secondary" onClick={() => { setSearchTerm(''); fetchCategorias(); }} disabled={loading}>
+                            <button type="button" className="btn btn-secondary" onClick={() => { setSearchTerm(''); fetchCategorias(); setCurrentPage(1); }} disabled={loading}>
                                 Todas
                             </button>
                         </form>
 
                         <div className="row row-cols-1 g-4">
-                            {categorias.length > 0 ? (
-                                categorias.map((cat) => (
+                            {currentCategorias.length > 0 ? (
+                                currentCategorias.map((cat) => (
                                     <AdminCategoriaCard 
                                         key={cat.id}
                                         category={cat}
@@ -429,6 +443,23 @@ const AdminCategoriesPage = () => {
                                 </div>
                             )}
                         </div>
+                        {totalPages > 1 && (
+                            <nav className="mt-4 d-flex justify-content-center">
+                                <ul className="pagination">
+                                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                        <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Anterior</button>
+                                    </li>
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                        <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                                            <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
+                                        </li>
+                                    ))}
+                                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                                        <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Siguiente</button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        )}
                     </section>
                 </div>
             </div>

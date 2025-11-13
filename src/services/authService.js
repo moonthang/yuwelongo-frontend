@@ -22,5 +22,31 @@ export async function loginUser(correo, contrasena) {
   const adaptedData = { ...data, token: data.accessToken };
   delete adaptedData.accessToken;
 
+  try {
+    if (adaptedData.token) {
+      sessionStorage.setItem('token', adaptedData.token);
+      const userRes = await fetch(`${API_URL}/usuarios?correo=${encodeURIComponent(correo)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adaptedData.token}`,
+        },
+      });
+
+      if (userRes.ok) {
+        const userData = await userRes.json();
+        const resolved = Array.isArray(userData) ? (userData[0] || null) : userData;
+        if (resolved) {
+          adaptedData.nombre = adaptedData.nombre || resolved.nombre;
+          adaptedData.correo = adaptedData.correo || resolved.correo;
+          adaptedData.idUsuario = adaptedData.idUsuario || resolved.idUsuario;
+          adaptedData.rol = adaptedData.rol || resolved.rol;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('No se pudo obtener datos adicionales del usuario tras login:', err.message || err);
+  }
+
   return adaptedData;
 }

@@ -40,6 +40,10 @@ const AdminPreguntasPage = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentEditPregunta, setCurrentEditPregunta] = useState(null);
     const [preguntaToDelete, setPreguntaToDelete] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 4;
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
+    const [currentPreviewPregunta, setCurrentPreviewPregunta] = useState(null);
 
     const fetchData = useCallback(async () => {
         if (!user?.token) return;
@@ -53,6 +57,7 @@ const AdminPreguntasPage = () => {
             setPreguntas(preguntasData);
             setNiveles(nivelesData);
             setPalabras(palabrasData);
+            setCurrentPage(1);
         } catch (error) {
             addToast('error', "Error al obtener los datos. ¿Están activos los servicios?");
         } finally {
@@ -74,11 +79,12 @@ const AdminPreguntasPage = () => {
                 throw new Error("La palabra seleccionada no es válida.");
             }
 
-            const respuestaCorrecta = palabraSeleccionada.palabraNasa;
+            const respuestaCorrecta = palabraSeleccionada.traduccion;
             const opciones = [values.opcion1, values.opcion2, values.opcion3, values.opcion4];
             if (!opciones.includes(respuestaCorrecta)) {
-                throw new Error("La respuesta correcta (palabra Nasa) debe ser una de las cuatro opciones.");
+                throw new Error("La respuesta correcta (traducción de la palabra) debe ser una de las cuatro opciones.");
             }
+
             const payload = {
                 ...values,
                 respuestaCoreccta: respuestaCorrecta,
@@ -108,11 +114,12 @@ const AdminPreguntasPage = () => {
                 throw new Error("La palabra seleccionada no es válida.");
             }
 
-            const respuestaCorrecta = palabraSeleccionada.palabraNasa;
+            const respuestaCorrecta = palabraSeleccionada.traduccion;
             const opciones = [values.opcion1, values.opcion2, values.opcion3, values.opcion4];
             if (!opciones.includes(respuestaCorrecta)) {
-                throw new Error("La respuesta correcta (palabra Nasa) debe ser una de las cuatro opciones.");
+                throw new Error("La respuesta correcta (traducción de la palabra) debe ser una de las cuatro opciones.");
             }
+
             const payload = {
                 ...values,
                 respuestaCoreccta: respuestaCorrecta,
@@ -163,13 +170,18 @@ const AdminPreguntasPage = () => {
         setShowEditModal(true);
     };
 
-    const FormularioPregunta = ({ isSubmitting, values, errors, touched, setFieldValue }) => {
+    const FormularioPregunta = ({ isSubmitting, values, errors, touched, setFieldValue, isEditMode = false }) => {
         const palabraOptions = palabras.map(p => ({ value: p.idPalabra, label: p.palabraNasa, frase: p.fraseEjemplo, traduccion: p.traduccion }));
         const palabraOptionsForSelect = palabras.map(p => ({ value: p.palabraNasa, label: p.palabraNasa }));
-
         const handlePalabraCorrectaChange = (option) => {
             setFieldValue('idPalabra', option.value);
             setFieldValue('preguntaTexto', option.frase);
+            setFieldValue('opcion1', option.traduccion);
+            if (!isEditMode) {
+                setFieldValue('opcion2', '');
+                setFieldValue('opcion3', '');
+                setFieldValue('opcion4', '');
+            }
         };
 
         const palabraSeleccionada = palabraOptions.find(p => p.value === values.idPalabra);
@@ -313,7 +325,7 @@ const AdminPreguntasPage = () => {
                             validationSchema={PreguntaSchema}
                             onSubmit={handleUpdatePregunta}
                             enableReinitialize
-                        >
+                        > 
                             {({ errors, touched, isSubmitting, values, setFieldValue }) => (
                                 <div className="modal-body" style={{ maxHeight: '75vh', overflowY: 'auto' }}>
                                     <FormularioPregunta isSubmitting={isSubmitting} values={values} errors={errors} touched={touched} setFieldValue={setFieldValue} />
@@ -353,7 +365,68 @@ const AdminPreguntasPage = () => {
         );
     };
 
+    const PreviewCardModal = () => {
+        if (!showPreviewModal || !currentPreviewPregunta) return null;
+
+        const getOpcionClass = (opcion) => {
+            return opcion === currentPreviewPregunta.respuestaCoreccta ? 'list-group-item list-group-item-success' : 'list-group-item';
+        };
+
+        return (
+            <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Vista Completa de Pregunta</h5>
+                            <button type="button" className="btn-close" onClick={() => setShowPreviewModal(false)}></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="card shadow-sm h-100">
+                                <div className="card-header">
+                                    <h5 className="card-title mb-0">{currentPreviewPregunta.preguntaTexto}</h5>
+                                </div>
+                                <div className="card-body">
+                                    <ul className="list-group list-group-flush">
+                                        <li className={getOpcionClass(currentPreviewPregunta.opcion1)}>{currentPreviewPregunta.opcion1}</li>
+                                        <li className={getOpcionClass(currentPreviewPregunta.opcion2)}>{currentPreviewPregunta.opcion2}</li>
+                                        <li className={getOpcionClass(currentPreviewPregunta.opcion3)}>{currentPreviewPregunta.opcion3}</li>
+                                        <li className={getOpcionClass(currentPreviewPregunta.opcion4)}>{currentPreviewPregunta.opcion4}</li>
+                                    </ul>
+                                    <p className="card-text mt-3">
+                                        <small className="text-muted">
+                                            Nivel: {currentPreviewPregunta.nivel?.nombre || 'N/A'} | XP: {currentPreviewPregunta.xpValor} | Palabra: {currentPreviewPregunta.palabra?.palabraNasa || 'N/A'}
+                                        </small>
+                                    </p>
+                                </div>
+                                <div className="card-footer bg-transparent border-top-0 pb-2">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <small className="text-muted">ID: {currentPreviewPregunta.idPregunta}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={() => setShowPreviewModal(false)}>Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     if (!user) return <p className="alert alert-danger">❌ **Acceso denegado:** Debes iniciar sesión para administrar.</p>;
+
+    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+    const currentPreguntas = preguntas.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(preguntas.length / ITEMS_PER_PAGE);
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
+
+    const handleOpenPreviewModal = (pregunta) => { setCurrentPreviewPregunta(pregunta); setShowPreviewModal(true); };
 
     return (
         <div className="admin-page bg-light flex-grow-1">
@@ -389,16 +462,17 @@ const AdminPreguntasPage = () => {
                     </div>
 
                     <div className="col-lg-7">
-                        <section className="p-4 border rounded shadow-sm bg-white h-100">
-                            <h2 className="mb-3">Listado de Preguntas</h2>
+                        <section className="p-4 border rounded shadow-sm bg-white h-100 d-flex flex-column">
+                            <h2>Listado de Preguntas</h2>
                             <div className="row row-cols-1 g-4 flex-grow-1 overflow-auto">
                                 {preguntas.length > 0 ? (
-                                    preguntas.map((pregunta) => (
+                                    currentPreguntas.map((pregunta) => (
                                         <AdminPreguntaCard
                                             key={pregunta.idPregunta}
                                             pregunta={pregunta}
                                             onEdit={handleOpenEditModal}
                                             onDelete={setPreguntaToDelete}
+                                            onPreview={handleOpenPreviewModal}
                                             loading={loading}
                                         />
                                     ))
@@ -410,6 +484,23 @@ const AdminPreguntasPage = () => {
                                     </div>
                                 )}
                             </div>
+                            {totalPages > 1 && (
+                                <nav className="mt-4 d-flex justify-content-center">
+                                    <ul className="pagination">
+                                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                            <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Anterior</button>
+                                        </li>
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                            <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                                                <button className="page-link" onClick={() => handlePageChange(page)}>{page}</button>
+                                            </li>
+                                        ))}
+                                        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                                            <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Siguiente</button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            )}
                         </section>
                     </div>
                 </div>
@@ -417,6 +508,7 @@ const AdminPreguntasPage = () => {
 
             <EditModal />
             <ConfirmDeleteModal />
+            <PreviewCardModal /> 
         </div>
     );
 };

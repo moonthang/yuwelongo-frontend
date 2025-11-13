@@ -10,6 +10,7 @@ import { ToastProvider } from "./context/ToastContext";
 import ToastContainer from "./components/ToastNotification";
 import './App.css';
 import Header from "./components/layout/Header/Header";
+import Footer from "./components/layout/footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Loader from "./components/ui/Loader/Loader";
 
@@ -48,6 +49,7 @@ function AppLayout() {
       <Suspense fallback={<Loader />}>
         {navigation.state === 'loading' ? <Loader /> : <Outlet />}
       </Suspense>
+      <Footer />
     </>
   );
 }
