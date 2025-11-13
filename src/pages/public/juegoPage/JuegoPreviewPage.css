@@ -55,6 +55,83 @@
     color: var(--color-primario);
 }
 
+.juego-ranking-tag {
+    position: relative;
+    /* QUITAMOS background: none; para usarlo más adelante si es necesario, 
+       pero mantenemos las propiedades de forma */
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden; 
+    box-sizing: border-box;
+    /* Establecemos un ancho y alto mínimos para que la forma sea regular 
+       antes de que el contenido la ajuste */
+    min-height: 38px; /* Ajusta este valor si tus otros tags son más altos */
+    min-width: 130px; /* Ajusta este valor si tus otros tags son más anchos */
+}
+
+/* 2. El Borde Animado (Pseudoelemento) */
+.juego-ranking-tag::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    /* Degradado con los colores solicitados */
+    background: conic-gradient(
+        var(--color-primario), 
+        var(--color-terciario), 
+        var(--color-bg-terciario), 
+        var(--color-bg-cuarternario), 
+        var(--color-exito), 
+        var(--color-primario)
+    );
+    z-index: 1;
+    animation: rotate 4s linear infinite;
+    /* AÑADIDO: Asegura la redondez del contenedor para el pseudoelemento */
+    border-radius: 20px; 
+}
+
+/* 3. El Contenido Interno (Fondo Blanco) */
+.juego-ranking-content {
+    /* Mantiene la estructura interna del tag */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Asegura que el contenido esté centrado */
+    gap: 0.5rem;
+    
+    /* Fondo e interiores */
+    background-color: white; /* Fondo blanco */
+    color: var(--color-principal); 
+    text-decoration: none;
+    
+    /* AJUSTE CLAVE: Reducimos ligeramente el tamaño para crear el borde. */
+    /* Usamos un padding estándar y luego un margin para reducir el área y 
+       exponer el borde degradado, manteniendo el tamaño del texto. */
+    padding: 0.5rem 1rem;
+    margin: 2px; /* <--- ESTE MARGIN ES CLAVE. Empuja el elemento blanco hacia dentro. */
+    
+    /* AJUSTE CLAVE: Border radius más pequeño que el contenedor */
+    border-radius: 18px; /* Debe ser menor que el 20px del contenedor */
+    
+    /* Posicionamiento para cubrir el borde animado */
+    position: relative;
+    z-index: 2; /* Sigue siendo crucial para que el contenido esté por encima */
+    
+    transition: color 0.3s ease;
+    /* Asegura que el Link tome todo el ancho y alto disponible en el contenedor */
+    width: calc(100% - 4px); /* Ancho total menos los 2px de margen en cada lado */
+    height: calc(100% - 4px); /* Alto total menos los 2px de margen en cada lado */
+    box-sizing: border-box;
+}
+
+/* 4. Definición de la Animación (Mantener) */
+@keyframes rotate {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
 .juego-preview-section {
     text-align: left;
     margin-bottom: 2rem;
